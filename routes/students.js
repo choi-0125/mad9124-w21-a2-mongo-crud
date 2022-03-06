@@ -7,3 +7,9 @@ router.get('/', async (req, res) => {
   res.json({ data: students.map(student => formatResponseData('students', student.toObject()))
   })
 })
+
+router.get('/:studentId', async (req, res) => {
+  let id = req.params.studentId
+  let student = await Student.findById(id)
+  res.send({data: formatResponseData('students', student.toObject())})
+});
