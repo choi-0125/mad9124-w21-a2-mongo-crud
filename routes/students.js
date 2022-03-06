@@ -1,6 +1,9 @@
 const express = require('express');
 const router = express.Router();
 const Student = require('../models/Student')
+const validateStudentId = require('../middleware/validateStudentId');
+
+router.use('/:studentId', validateStudentId)
 
 router.get('/', async (req, res) => {
   const students = await Student.find()
