@@ -70,3 +70,13 @@ router.patch('/:studentId', async (req, res) => {
   res.send({data: formatResponseData('students', updatedStudent.doc) });
 
 });
+
+router.delete('/:studentId', async (req, res) => {
+  const id = req.params.studentId
+  const deletedStudent = await Student.findByIdAndRemove(id)
+
+  res.json({
+    data: formatResponseData('students', deletedStudent._doc),
+    meta: {message: `student with id: ${id} successfully deleted`}
+  })
+})
