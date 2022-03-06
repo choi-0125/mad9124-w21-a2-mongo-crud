@@ -80,3 +80,17 @@ router.delete('/:studentId', async (req, res) => {
     meta: {message: `student with id: ${id} successfully deleted`}
   })
 })
+
+/**
+ * 
+ * @param {string} type 
+ * @param {Object} resource 
+ * @returns 
+ */
+
+function formatResponseData(type, res) {
+  const {_id, ...attributes} = res;
+  return {type, id: _id, attributes};
+}
+
+module.exports = router
