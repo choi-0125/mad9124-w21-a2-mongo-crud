@@ -1,8 +1,9 @@
 const express = require('express');
+const validateStudentId = require('../middleware/validateStudentId');
 const router = express.Router();
 const Student = require('../models/Student')
-const validateStudentId = require('../middleware/validateStudentId');
 
+// validate:
 router.use('/:studentId', validateStudentId)
 
 router.get('/', async (req, res) => {
@@ -10,6 +11,7 @@ router.get('/', async (req, res) => {
   res.json({ data: students.map(student => formatResponseData('students', student.toObject()))
   })
 })
+
 
 router.get('/:studentId', async (req, res) => {
   let id = req.params.studentId
