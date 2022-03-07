@@ -12,6 +12,12 @@ router.get('/', async (req, res) => {
   })
 })
 
+router.get('/:courseId', async(req, res) => {
+  let id = req.params.courseId
+  let course = await Course.findById(id)
+  res.send({data: formatResponseData('courses', course.toObject())})
+})
+
 router.post('/', async (req, res)=>{
   // 1. get data from req.body
   const attributes = req.body.data.attributes

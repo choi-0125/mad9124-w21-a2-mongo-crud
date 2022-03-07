@@ -1,23 +1,22 @@
-const Student = require('../models/Student')
+const Course = require('../models/Course')
 
-const validateStudentId = async function (req, res, next){
+const validateCourseId = async function (req, res, next){
   
-  const id= req.params.studentId;
-  // const index = students.findIndex(student => parseInt(student.id) == id )
-  let student = await Student.findById(id)
-  if(student === null || id.length != 24){
+  const id= req.params.courseId;
+  let course = await Course.findById(id)
+  if(course === null || id.length != 24){
     res.status(404).send({
       errors: [
         {
           status: '404',
           title: 'Resource does not exist',
-          description: `We could not find a student with id: ${id}`
+          description: `We could not find a course with id: ${id}`
         }
       ]
     })
 
   }
-  if (student != null) {
+  if (course != null) {
     next();
   }
 
@@ -25,4 +24,4 @@ const validateStudentId = async function (req, res, next){
 
 }
 
-module.exports = validateStudentId
+module.exports = validateCourseId
