@@ -1,7 +1,10 @@
 const express = require('express');
 const validateStudentId = require('../middleware/validateStudentId');
+const sanitizeBody = require('../middleware/sanitizeBody')
 const router = express.Router();
 const Student = require('../models/Student')
+const debug = require('debug')
+
 
 // validate:
 router.use('/:studentId', validateStudentId)
@@ -19,13 +22,13 @@ router.get('/:studentId', async (req, res) => {
   res.send({data: formatResponseData('students', student.toObject())})
 });
 
-router.post('/', async (req, res)=>{
+router.post('/', sanitizeBody, async (req, res)=>{
   // 1. get data from req.body
-  const attributes = req.body.data.attributes
+  // const attributes = req.body.data.attributes
   const type = req.body.data.type
   // 2. check type
   if (type === 'students') {
-    let newStudent = new Student(attributes)
+    let newStudent = new Student(req.sanitizedBody)
 
   await newStudent.save()
 

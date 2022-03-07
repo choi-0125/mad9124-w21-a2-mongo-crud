@@ -5,7 +5,7 @@ const Student = require('../models/Student')
 const validateStudentId = async function (req, res, next){
   let student = null
   const id= req.params.studentId;
-  if(id === 24) {
+  if(id.length === 24) {
     student = await Student.findById(id)
   }
   if(student === null){
