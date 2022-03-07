@@ -4,9 +4,9 @@ const schema = new mongoose.Schema({
   title: {type: String, required: true, max: 255},
   description: {type: String, max: 2048},
   url: {type: String, max: 512},
-  students: {type: [mongoose.Schema.Types.ObjectId], ref: 'Student'}
+  students: [{type: mongoose.Schema.Types.ObjectId, ref: 'Student'}]
 })
 
 const Model = mongoose.model('Course', schema )
 
-module.export(Model)
+module.exports = Model
