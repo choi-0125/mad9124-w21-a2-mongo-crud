@@ -22,7 +22,7 @@ router.get('/:studentId', async (req, res) => {
   res.send({data: formatResponseData('students', student.toObject())})
 });
 
-router.post('/', async (req, res)=>{
+router.post('/', sanitizeBody, async (req, res)=>{
   // 1. get data from req.body
   // const attributes = req.body.data.attributes
   const type = req.body.data.type
