@@ -3,11 +3,12 @@ const Student = require('../models/Student')
 
 
 const validateStudentId = async function (req, res, next){
-  
+  let student = null
   const id= req.params.studentId;
-  // const index = students.findIndex(student => parseInt(student.id) == id )
-  let student = await Student.findById(id)
-  if(student === null || id.length != 24){
+  if(id === 24) {
+    student = await Student.findById(id)
+  }
+  if(student === null){
     res.status(404).send({
       errors: [
         {

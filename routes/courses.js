@@ -42,6 +42,23 @@ router.post('/', async (req, res)=>{
   }
 })
 
+router.put('/:courseId', async (req, res) => {
+  //we want to replace everything except id
+  const {_id, ...otherAttributes} = req.body.data.attributes
+  const updatedCourse = await Course.findByIdAndUpdate(
+    req.params.courseId,
+    {...otherAttributes},
+    {
+      new: true,
+      overwrite: true,
+      runValidators: true
+    })
+
+    console.log(updatedCourse)
+
+  res.send({data: formatResponseData('courses', updatedCourse._doc) });
+});
+
 function formatResponseData(type, res) {
   const {_id, ...attributes} = res;
   return {type, id: _id, attributes};
