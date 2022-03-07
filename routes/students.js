@@ -46,12 +46,11 @@ router.post('/', async (req, res)=>{
   }
 })
 
-router.put('/:studentId', async (req, res) => {
+router.put('/:studentId', sanitizeBody, async (req, res) => {
   //we want to replace everything except id
-  const {_id, ...otherAttributes} = req.body.data.attributes
   const updatedStudent = await Student.findByIdAndUpdate(
     req.params.studentId,
-    {...otherAttributes},
+    {...req.sanitizedBody},
     {
       new: true,
       overwrite: true,
@@ -78,7 +77,7 @@ router.patch('/:studentId', sanitizeBody, async (req, res) => {
 
 });
 
-router.delete('/:studentId', sanitizeBody, async (req, res) => {
+router.delete('/:studentId', async (req, res) => {
   const id = req.params.studentId
   const deletedStudent = await Student.findByIdAndRemove(id)
 
