@@ -59,6 +59,20 @@ router.put('/:courseId', async (req, res) => {
   res.send({data: formatResponseData('courses', updatedCourse._doc) });
 });
 
+router.patch('/:courseId', async (req, res) => {
+  const {...attributes} = req.body.data.attributes
+  const updatedCourse = await Course.findByIdAndUpdate(
+    req.params.courseId,
+    {_id: req.params.courseId, ...attributes},
+    {
+      new: true,
+      runValidators: true
+    })
+
+  res.send({data: formatResponseData('courses', updatedCourse._doc) });
+
+});
+
 function formatResponseData(type, res) {
   const {_id, ...attributes} = res;
   return {type, id: _id, attributes};
