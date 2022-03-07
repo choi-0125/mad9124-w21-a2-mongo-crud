@@ -73,6 +73,16 @@ router.patch('/:courseId', async (req, res) => {
 
 });
 
+router.delete('/:courseId', async (req, res) => {
+  const id = req.params.courseId
+  const deletedCourse = await Course.findByIdAndRemove(id)
+
+  res.json({
+    data: formatResponseData('courses', deletedCourse._doc),
+    meta: {message: `course with id: ${id} successfully deleted`}
+  })
+})
+
 function formatResponseData(type, res) {
   const {_id, ...attributes} = res;
   return {type, id: _id, attributes};
