@@ -2,6 +2,7 @@ const express = require('express');
 const validateCourseId = require('../middleware/validateCourseId');
 const router = express.Router();
 const Course = require('../models/Course')
+const sanitizeBody = require('../middleware/sanitizeBody')
 
 // validate:
 router.use('/:courseId', validateCourseId)
@@ -18,17 +19,18 @@ router.get('/:courseId', async(req, res) => {
   res.send({data: formatResponseData('courses', course.toObject())})
 })
 
-router.post('/', async (req, res)=>{
+router.post('/', sanitizeBody, async (req, res)=>{
   // 1. get data from req.body
-  const attributes = req.body.data.attributes
   const type = req.body.data.type
   // 2. check type
   if (type === 'courses') {
-    let newCourse = new Course(attributes)
-
-  await newCourse.save()
-
-    res.status(201).json({ data: formatResponseData('courses', newCourse._doc)})
+    console.log(req.sanitizedBody)
+    
+    let newCourse = new Course(req.sanitizedBody)
+    console.log(newCourse)
+    await newCourse.save()
+    // res.status(201).json({ data: formatResponseData('courses', newCourse._doc)})
+    res.status(201).json({data: newCourse})
   } else {
     res.status(400).json({
       errors: [
