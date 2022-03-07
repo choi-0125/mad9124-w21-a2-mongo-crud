@@ -22,7 +22,7 @@ router.get('/:studentId', async (req, res) => {
   res.send({data: formatResponseData('students', student.toObject())})
 });
 
-router.post('/', sanitizeBody, async (req, res)=>{
+router.post('/', async (req, res)=>{
   // 1. get data from req.body
   // const attributes = req.body.data.attributes
   const type = req.body.data.type
@@ -63,11 +63,10 @@ router.put('/:studentId', async (req, res) => {
   res.send({data: formatResponseData('students', updatedStudent._doc) });
 });
 
-router.patch('/:studentId', async (req, res) => {
-  const {_id, ...otherAttributes} = req.body.data.attributes
+router.patch('/:studentId', sanitizeBody, async (req, res) => {
   const updatedStudent = await Student.findByIdAndUpdate(
     req.params.studentId,
-    {_id: req.params.id, ...otherAttributes},
+    {_id: req.params.id, ...req.sanitizedBody},
     {
       new: true,
       runValidators: true
@@ -75,11 +74,11 @@ router.patch('/:studentId', async (req, res) => {
 
     
 
-  res.send({data: formatResponseData('students', updatedStudent.doc) });
+  res.send({data: formatResponseData('students', updatedStudent._doc) });
 
 });
 
-router.delete('/:studentId', async (req, res) => {
+router.delete('/:studentId', sanitizeBody, async (req, res) => {
   const id = req.params.studentId
   const deletedStudent = await Student.findByIdAndRemove(id)
 
