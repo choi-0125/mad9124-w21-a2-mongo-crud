@@ -1,5 +1,4 @@
 // Don't forget to use NPM to install Express and Mongoose.
-
 'use strict'
 
 //load dependecies
@@ -7,9 +6,9 @@ const morgan = require('morgan');
 const express = require('express');
 const studentsRouter = require('./routes/students');
 const coursesRouter = require('./routes/courses');
-const mongoose = require('mongoose')
 
-mongoose.connect('mongodb://localhost:27017/test', {useNewUrlParser: true})
+const connectDatabase = require('./startup/connectDatabase.js')
+connectDatabase()
 
 
 const app = express();
